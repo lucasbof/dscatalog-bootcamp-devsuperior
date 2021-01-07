@@ -1,5 +1,14 @@
+import jwtDecode from 'jwt-decode';
 export const CLIENT_ID = 'dscatalog';
 export const CLIENT_SECRET = 'dscatalog123';
+
+export type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
+
+type AccessToken = {
+    exp: number;
+    user_name: string;
+    authorities: Role[];
+}
 
 type LoginResponse = {
     access_token: string;
@@ -19,4 +28,29 @@ export const getSessionData = () => {
     const parsedSessionData = JSON.parse(sessionData);
 
     return parsedSessionData as LoginResponse;
-} 
+}
+
+export const getAccessTokenDecoded = () => {
+    const sessionData = getSessionData();
+    const tokenDecoded = jwtDecode(sessionData.access_token);
+    return tokenDecoded as AccessToken;  
+}
+
+export const isTokenValid = () => {
+    const { exp } = getAccessTokenDecoded();
+    const isTokenValid = Date.now() <= exp * 1000;
+    return isTokenValid;
+}
+
+export const isAuthenticated = () => {
+    const sessionData = getSessionData();
+    return !!sessionData.access_token && isTokenValid();
+}
+
+export const isAllowedByRole = (routeRoles: Role[] = []) => {
+    if(routeRoles.length === 0) {
+        return true;
+    }
+    const { authorities } = getAccessTokenDecoded();
+    return routeRoles.some(role => authorities.includes(role));
+}

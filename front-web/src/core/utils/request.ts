@@ -21,7 +21,6 @@ const BASE_URL = 'http://localhost:8080';
 axios.interceptors.response.use(
     response => 
     {
-        console.log('a resposta deu certo', response);
         return response;
     }, 
     error => 
