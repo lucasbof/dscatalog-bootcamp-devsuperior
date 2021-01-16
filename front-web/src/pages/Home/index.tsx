@@ -15,11 +15,11 @@ const Home = () => (
                     Ajudaremos você a encontrar os melhores <br/> produtos disponíveis no mercado.
                 </p>
                 <Link to="/products">
-                    <ButtonIcon text="inicie a sua busca" />
+                    <ButtonIcon text="inicie agora a sua busca" />
                 </Link>
             </div>
             <div className="col-6">
-                <MainImage className="main-image" />
+                <MainImage className="main-image" data-testid="main-image" />
             </div>
         </div>
     </div>
