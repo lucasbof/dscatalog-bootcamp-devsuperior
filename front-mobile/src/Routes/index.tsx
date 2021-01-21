@@ -1,12 +1,26 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Catalog, Home, ProductDetails } from '../pages';
+import { colors, nav } from '../styles';
+import { Text } from 'react-native';
+import { NavBar } from '../components';
 
 const Stack = createStackNavigator();
 
+const HeaderLeft = () => <Text style={nav.leftText}>DS Catalog</Text>
+
 const Routes = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerTitle: '',
+                headerStyle: {
+                    backgroundColor: colors.primary,
+                },
+                headerLeft: () => <HeaderLeft />,
+                headerRight: () => <NavBar />
+            }}
+        >
             <Stack.Screen
                 name="Home" 
                 component={Home}
