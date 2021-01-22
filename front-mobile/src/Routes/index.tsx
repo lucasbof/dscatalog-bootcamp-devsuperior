@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Catalog, Home, ProductDetails } from '../pages';
+import { Catalog, Dashboard, Home, Login, ProductDetails } from '../pages';
 import { colors, nav } from '../styles';
 import { Text } from 'react-native';
 import { NavBar } from '../components';
@@ -22,7 +22,7 @@ const Routes = () => {
             }}
         >
             <Stack.Screen
-                name="Home" 
+                name="Home"
                 component={Home}
             />
             <Stack.Screen
@@ -32,6 +32,14 @@ const Routes = () => {
             <Stack.Screen
                 name="ProductDetails"
                 component={ProductDetails}
+            />
+            <Stack.Screen
+                name="Login"
+                component={Login}
+            />
+            <Stack.Screen
+                name="Dashboard"
+                component={Dashboard}
             />
         </Stack.Navigator>
     );

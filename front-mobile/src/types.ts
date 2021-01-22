@@ -6,3 +6,8 @@ export type Product = {
     description: string;
     date: string;
 }
+
+export type UserInfo = {
+    username: string;
+    password: string;
+}
