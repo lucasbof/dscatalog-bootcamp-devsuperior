@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, ActivityIndicator } from 'react-native';
 import { ProductCard, SearchInput } from '../components';
-import { api } from '../services';
+import { getProducts } from '../services';
 import { theme } from '../styles';
 import { Product } from '../types';
 
@@ -13,7 +13,7 @@ const Catalog = () => {
 
     const fillProducts = async () => {
         setIsLoading(true);
-        const res = await api.get('/products?page=0&linesPerPage=12&direction=ASC&orderBy=name');
+        const res = await getProducts();
         setProducts(res.data.content);
         setIsLoading(false);
     }

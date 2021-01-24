@@ -1,10 +1,16 @@
-export type Product = {
+export type Category = {
     id: number;
     name: string;
+}
+
+export type Product = {
+    id?: number;
+    name: string;
     imgUrl: string;
-    price: number;
+    price: any;
     description: string;
     date: string;
+    categories: Category[];
 }
 
 export type UserInfo = {

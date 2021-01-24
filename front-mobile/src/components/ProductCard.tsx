@@ -1,14 +1,19 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 import { text, theme } from '../styles';
 import { Product } from '../types';
 
 type Props = {
     product: Product;
+    role?: string;
+    setScreen?: Function;
+    setProductId?: Function;
+    handleDelete?: Function;
 }
 
-const ProductCard = ({ product }: Props) => {
+const ProductCard = ({ product, role, setScreen, setProductId, handleDelete }: Props) => {
 
     const navigation = useNavigation();
 
@@ -26,9 +31,53 @@ const ProductCard = ({ product }: Props) => {
                 <Text style={text.productName}>{product.name}</Text>
                 <View style={theme.priceContainer}>
                     <Text style={text.currency}>R$</Text>
-                    <Text style={text.productPrice}>{product.price}</Text>
+                    <TextInputMask 
+                        type={"money"}
+                        options={{
+                            precision: 2,
+                            separator: ',',
+                            delimiter: '.',
+                            suffixUnit: '',
+                            unit: ' '
+                        }}
+                        value={product.price}
+                        editable={false}
+                        style={text.productPrice}
+                    />
                 </View>
             </View>
+
+            {role === "admin" && (
+                <View style={theme.buttonContainer}>
+                    <TouchableOpacity 
+                        activeOpacity={0.8}
+                        style={theme.deleteBtn}
+                        onPress={() => Alert.alert('Deseja excluir este produto?', 'Os dados do produto serão deletados, caso confirme', [
+                            {
+                                text: 'Voltar',
+                                style: 'cancel'
+                            },
+                            {
+                                text: 'Confirmar',
+                                onPress: () => handleDelete && handleDelete(product.id ? product.id : 0),
+                                style: 'default'
+                            }
+                        ])}
+                    >
+                        <Text style={text.deleteTxt}>Excluir</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={theme.editBtn}
+                        activeOpacity={0.8}
+                        onPress={() => {
+                            if(setScreen) setScreen('productForm');
+                            if(setProductId) setProductId(product.id);
+                        }}
+                    >
+                        <Text style={text.editText}>Editar</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
         </TouchableOpacity>
     );
 }

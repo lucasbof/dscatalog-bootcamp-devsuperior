@@ -1,12 +1,10 @@
 import { UserInfo } from '../types';
-import { api } from './index';
+import { api, CLIENT_ID, CLIENT_SECRET } from './index';
 import queryString from 'query-string';
 import { Base64 } from 'js-base64';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const login = async (userInfo: UserInfo) => {
-    const CLIENT_ID = 'dscatalog';
-    const CLIENT_SECRET = 'dscatalog123';
     const data = queryString.stringify({ ...userInfo, grant_type: 'password' });
 
     const token = `${CLIENT_ID}:${CLIENT_SECRET}`;
@@ -40,6 +38,18 @@ export const isAuthenticated = async () => {
         const token = await AsyncStorage.getItem('@token');
 
         return !!token;
+    }
+    catch(e) {
+        console.warn(e);
+    }
+}
+
+export const getToken = async () => {
+    try {
+        
+        const token = await AsyncStorage.getItem('@token');
+
+        return token;
     }
     catch(e) {
         console.warn(e);
