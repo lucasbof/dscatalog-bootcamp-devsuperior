@@ -4,7 +4,7 @@ import { Image, Text, View, TouchableOpacity } from 'react-native';
 import { nav, text } from '../styles';
 import menu from '../assets/menu.png';
 import { TouchableOpacity as TouchableOpacityGestureHandler } from 'react-native-gesture-handler';
-import { isAuthenticated, doLogout } from '../services/auth';
+import { doLogout, isAuthenticated } from '../services/asyncStorageService';
 
 const NavBar = () => {
     const navigation = useNavigation();

@@ -3,7 +3,7 @@ import { Text, View, ScrollView, TouchableOpacity, ActivityIndicator } from 'rea
 import Toast from 'react-native-tiny-toast';
 import { SearchInput, ProductCard } from '../../../components';
 import { deleteProduct, getProducts } from '../../../services';
-import { theme, text, tabbar, admin } from '../../../styles';
+import {  text, admin } from '../../../styles';
 import { Product } from '../../../types';
 
 type Props = {

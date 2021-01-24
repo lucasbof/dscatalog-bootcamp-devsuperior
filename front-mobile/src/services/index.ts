@@ -1,13 +1,10 @@
 import axios from 'axios';
 import { Product } from '../types';
-import { getToken } from './auth';
+import { getToken } from './asyncStorageService';
 
 export const api = axios.create({
     baseURL: 'https://lucas-dscatalog.herokuapp.com'
 });
-
-export const CLIENT_ID = 'dscatalog';
-export const CLIENT_SECRET = 'dscatalog123';
 
 export const getProducts = () => {
     const res = api.get('/products?direction=DESC&orderBy=id');

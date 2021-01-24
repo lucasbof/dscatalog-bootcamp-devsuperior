@@ -1,8 +1,12 @@
 import { UserInfo } from '../types';
-import { api, CLIENT_ID, CLIENT_SECRET } from './index';
+import { api } from './index';
 import queryString from 'query-string';
 import { Base64 } from 'js-base64';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setToken } from './asyncStorageService';
+
+
+const CLIENT_ID = 'dscatalog';
+const CLIENT_SECRET = 'dscatalog123';
 
 export const login = async (userInfo: UserInfo) => {
     const data = queryString.stringify({ ...userInfo, grant_type: 'password' });
@@ -18,49 +22,8 @@ export const login = async (userInfo: UserInfo) => {
 
     const { access_token } = result.data;
 
-    setAsyncKeys('@token', access_token);
+    setToken(access_token);
 
     return result;
 }
 
-const setAsyncKeys = async (key: string, value: string) => {
-    try {
-        AsyncStorage.setItem(key, value);
-    }
-    catch(e) {
-        console.warn(e);
-    }
-}
-
-export const isAuthenticated = async () => {
-    try {
-    
-        const token = await AsyncStorage.getItem('@token');
-
-        return !!token;
-    }
-    catch(e) {
-        console.warn(e);
-    }
-}
-
-export const getToken = async () => {
-    try {
-        
-        const token = await AsyncStorage.getItem('@token');
-
-        return token;
-    }
-    catch(e) {
-        console.warn(e);
-    }
-}
-
-export const doLogout =  async () => {
-    try {
-        AsyncStorage.removeItem('@token');
-    }
-    catch(e) {
-        console.warn(e);
-    }
-}

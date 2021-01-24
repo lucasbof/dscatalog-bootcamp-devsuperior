@@ -3,13 +3,10 @@ import { Text, View, TouchableOpacity, ActivityIndicator, Modal, Image, Alert } 
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { Category, Product } from '../../../types';
 
-import { getToken } from '../../../services/auth';
-
 import arrow from '../../../assets/leftArrow.png';
 import downArrow from '../../../assets/downArrow.png';
-import { api, getCategories, getProduct, insertNewProduct, updateProduct, uploadImage } from '../../../services';
-import Categories from '../Categories';
-import { admin, colors, text, theme } from '../../../styles';
+import { getCategories, getProduct, insertNewProduct, updateProduct, uploadImage } from '../../../services';
+import { text, theme } from '../../../styles';
 import { CheckBox } from '../../../components';
 import Toast from 'react-native-tiny-toast';
 import { TextInputMask } from 'react-native-masked-text';
