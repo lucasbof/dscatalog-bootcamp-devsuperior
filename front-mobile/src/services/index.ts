@@ -3,7 +3,7 @@ import { Product } from '../types';
 import { getToken } from './auth';
 
 export const api = axios.create({
-    baseURL: 'http://192.168.15.8:8080'
+    baseURL: 'https://lucas-dscatalog.herokuapp.com'
 });
 
 export const CLIENT_ID = 'dscatalog';
