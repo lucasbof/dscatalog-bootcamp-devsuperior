@@ -3,7 +3,7 @@ import { Product } from '../types';
 import { getToken } from './auth';
 
 export const api = axios.create({
-    baseURL: 'https://lucas-dscatalog.herokuapp.com'
+    baseURL: 'http://192.168.15.8:8080'
 });
 
 export const CLIENT_ID = 'dscatalog';
@@ -70,13 +70,14 @@ export const uploadImage = async (image: string) => {
     let data = new FormData();
     data.append('file', {
         uri: image,
+        type: 'multipart/form-data',
         name: image
     });
 
     const res = await api.post('/products/image', data, {
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/formdata'
+            'Content-Type': 'multipart/form-data'
         }
     });
 

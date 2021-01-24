@@ -64,14 +64,19 @@ const ProductForm = ({ productId, setScreen }: Props) => {
         else editProduct();
     }
 
-    const getRawPrice = (price: string) => price.slice(2).replace(/\./g, '').replace(/,/g, '.');
+    const getRawPrice = (price: string) => {
+        if(price.includes('R$')) {
+            price = price.slice(2);
+        }
+        return price.replace(/\./g, '').replace(/,/g, '.');
+    }
     
 
     const editProduct = async () => {
         setIsLoading(true)
         let data = { ...product };
 
-        data.price = Number(data.price);
+        data.price = Number(getRawPrice(data.price));
 
         try {
             const res = await updateProduct(data);
@@ -167,34 +172,6 @@ const ProductForm = ({ productId, setScreen }: Props) => {
         setCheck({ ...obj });
     }
 
-    useEffect(() => {
-        setIsCategoryLoading(true);
-        setTimeout(() => {
-            setInitialCategories();
-            setSelectLabel(getCategoriesLabel());
-            setIsCategoryLoading(false);
-        }, 500);
-    }, [categories, productCategories]);
-
-    useEffect(() => {
-        updateCategories();
-        setSelectLabel(getCategoriesLabel());
-    }, [allChecks]);
-
-    useEffect(() => {
-        loadCategories();
-        loadProduct();
-    }, []);
-
-    useEffect( () => {
-        async () => {
-            const { status } = await ImagePicker.requestCameraPermissionsAsync();
-            if(status !== 'granted') {
-                Alert.alert('Precisamos de acesso à biblioteca de imagens!');
-            }
-        }
-    }, []);
-
     const selectImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -213,8 +190,36 @@ const ProductForm = ({ productId, setScreen }: Props) => {
         .then(response => {
             const { uri } = response?.data;
             setProduct({...product, imgUrl: uri});
-        });
+        })
+        .catch((error) => {
+            Toast.show('Erro ao fazer o upload da imagem!')
+        })
     }
+
+    useEffect(() => {
+        loadCategories();
+        loadProduct();
+        async () => {
+            const { status } = await ImagePicker.requestCameraPermissionsAsync();
+            if(status !== 'granted') {
+                Alert.alert('Precisamos de acesso à biblioteca de imagens!');
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        setIsCategoryLoading(true);
+        setTimeout(() => {
+            setInitialCategories();
+            setSelectLabel(getCategoriesLabel());
+            setIsCategoryLoading(false);
+        }, 500);
+    }, [categories, productCategories]);
+
+    useEffect(() => {
+        updateCategories();
+        setSelectLabel(getCategoriesLabel());
+    }, [allChecks]);
 
     useEffect(() => {
         image && image !== product.imgUrl ? handleUpload() : null
@@ -298,7 +303,7 @@ const ProductForm = ({ productId, setScreen }: Props) => {
                                     placeholder="Preço"
                                     value={product.price}
                                     style={theme.formInput}
-                                    onChangeText={(price) => setProduct({ ...product, price: getRawPrice(price) })}
+                                    onChangeText={(price) => setProduct({ ...product, price: price })}
                                 />
 
                                 <TouchableOpacity
