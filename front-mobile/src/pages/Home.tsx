@@ -15,7 +15,7 @@ const Home = () => {
                     <Image source={draw} style={theme.draw} />
                     <View style={theme.textContainer}>
                         <Text style={text.bold}>Conheça o melhor catálogo de produtos</Text>
-                        <Text style={text.regular}>Ajudaremos você a encontrar os melhores produtos disponíveis no mercado.</Text>
+                        <Text style={text.regular}>Ajudaremos você a encontrar os melhores produtos disponíveis no mercado</Text>
                     </View>
                     <TouchableOpacity
                         onPress={() => navigation.navigate('Catalog')} 
